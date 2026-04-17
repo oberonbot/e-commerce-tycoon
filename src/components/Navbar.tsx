@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
 import {
   Globe,
@@ -129,6 +130,7 @@ export function Navbar() {
     'rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 hover:text-brand-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600'
 
   return (
+    <>
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur-md supports-[backdrop-filter]:bg-white/80">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
         <Link
@@ -201,112 +203,120 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu backdrop */}
-      <div
-        className={`fixed inset-0 z-40 bg-slate-900/40 backdrop-blur-[2px] transition-opacity duration-300 md:hidden ${
-          mobileOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
-        }`}
-        aria-hidden={!mobileOpen}
-        onClick={() => setMobileOpen(false)}
-      />
-
-      {/* Mobile drawer (slides from right) */}
-      <aside
-        id="mobile-menu"
-        className={`fixed inset-y-0 right-0 z-50 flex w-full max-w-sm flex-col border-l border-slate-200 bg-white shadow-2xl transition-transform duration-300 ease-out md:hidden ${
-          mobileOpen ? 'pointer-events-auto translate-x-0' : 'pointer-events-none translate-x-full'
-        }`}
-        aria-hidden={!mobileOpen}
-        inert={!mobileOpen}
-      >
-        <div className="flex items-center justify-between border-b border-slate-100 px-4 py-4">
-          <span className="text-sm font-semibold uppercase tracking-wider text-slate-500">
-            {t('nav.menu')}
-          </span>
-          <button
-            type="button"
-            className="flex h-10 w-10 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-50 hover:text-brand-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
-            onClick={() => setMobileOpen(false)}
-            aria-label={t('nav.closeMenu')}
-          >
-            <X className="h-6 w-6" strokeWidth={2} />
-          </button>
-        </div>
-
-        <div className="flex flex-1 flex-col gap-1 overflow-y-auto px-3 py-4">
-          <div className="px-3 pb-3">
-            <LanguageSelect selectId="navbar-lang-drawer" />
-          </div>
-
-          <p className="px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
-            {t('nav.navigate')}
-          </p>
-          {navLinks.map(({ to, label }) => (
-            <Link
-              key={to}
-              to={to}
-              className="rounded-xl px-3 py-3 text-base font-medium text-slate-800 transition-colors hover:bg-brand-50 hover:text-brand-600"
-              onClick={() => setMobileOpen(false)}
-            >
-              {label}
-            </Link>
-          ))}
-
-          <div className="my-4 h-px bg-slate-100" />
-
-          <p className="px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
-            {t('nav.quickLinks')}
-          </p>
-          <Link
-            to="/search"
-            className="flex items-center gap-3 rounded-xl px-3 py-3 text-base font-medium text-slate-800 transition-colors hover:bg-brand-50 hover:text-brand-600"
-            onClick={() => setMobileOpen(false)}
-          >
-            <Search className="h-5 w-5 text-brand-600" aria-hidden />
-            {t('nav.search')}
-          </Link>
-          <Link
-            to="/wishlist"
-            className="flex items-center gap-3 rounded-xl px-3 py-3 text-base font-medium text-slate-800 transition-colors hover:bg-brand-50 hover:text-brand-600"
-            onClick={() => setMobileOpen(false)}
-          >
-            <span className="relative inline-flex">
-              <Heart className="h-5 w-5 text-brand-600" aria-hidden />
-              <CountBadge count={wishlistCount} />
-            </span>
-            {t('nav.wishlist')}
-            {wishlistCount > 0 ? (
-              <span className="ml-auto text-sm text-slate-500">({wishlistCount})</span>
-            ) : null}
-          </Link>
-          <Link
-            to="/cart"
-            className="flex items-center gap-3 rounded-xl px-3 py-3 text-base font-medium text-slate-800 transition-colors hover:bg-brand-50 hover:text-brand-600"
-            onClick={() => setMobileOpen(false)}
-          >
-            <span className="relative inline-flex">
-              <ShoppingBag className="h-5 w-5 text-brand-600" aria-hidden />
-              <CountBadge count={itemCount} />
-            </span>
-            {t('nav.cart')}
-            {itemCount > 0 ? (
-              <span className="ml-auto text-sm text-slate-500">({itemCount})</span>
-            ) : null}
-          </Link>
-          <Link
-            to={accountHref}
-            className="flex items-center gap-3 rounded-xl px-3 py-3 text-base font-medium text-slate-800 transition-colors hover:bg-brand-50 hover:text-brand-600"
-            onClick={() => setMobileOpen(false)}
-          >
-            <User className="h-5 w-5 text-brand-600" aria-hidden />
-            {isAuthenticated ? t('nav.account') : t('nav.login')}
-          </Link>
-        </div>
-
-        <div className="border-t border-slate-100 p-4">
-          <p className="text-center text-xs text-slate-500">{t('nav.tagline')}</p>
-        </div>
-      </aside>
     </header>
+
+      {/* Portal out of <header> so backdrop-filter doesn't trap fixed positioning */}
+      {createPortal(
+        <>
+          {/* Mobile menu backdrop */}
+          <div
+            className={`fixed inset-0 z-40 bg-slate-900/40 backdrop-blur-[2px] transition-opacity duration-300 md:hidden ${
+              mobileOpen ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+            }`}
+            aria-hidden={!mobileOpen}
+            onClick={() => setMobileOpen(false)}
+          />
+
+          {/* Mobile drawer (slides from right) */}
+          <aside
+            id="mobile-menu"
+            className={`fixed inset-y-0 right-0 z-50 flex w-full max-w-sm flex-col border-l border-slate-200 bg-white shadow-2xl transition-transform duration-300 ease-out md:hidden ${
+              mobileOpen ? 'pointer-events-auto translate-x-0' : 'pointer-events-none translate-x-full'
+            }`}
+            aria-hidden={!mobileOpen}
+            inert={!mobileOpen}
+          >
+            <div className="flex items-center justify-between border-b border-slate-100 px-4 py-4">
+              <span className="text-sm font-semibold uppercase tracking-wider text-slate-500">
+                {t('nav.menu')}
+              </span>
+              <button
+                type="button"
+                className="flex h-10 w-10 items-center justify-center rounded-lg text-slate-600 hover:bg-slate-50 hover:text-brand-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600"
+                onClick={() => setMobileOpen(false)}
+                aria-label={t('nav.closeMenu')}
+              >
+                <X className="h-6 w-6" strokeWidth={2} />
+              </button>
+            </div>
+
+            <div className="flex flex-1 flex-col gap-1 overflow-y-auto px-3 py-4">
+              <div className="px-3 pb-3">
+                <LanguageSelect selectId="navbar-lang-drawer" />
+              </div>
+
+              <p className="px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                {t('nav.navigate')}
+              </p>
+              {navLinks.map(({ to, label }) => (
+                <Link
+                  key={to}
+                  to={to}
+                  className="rounded-xl px-3 py-3 text-base font-medium text-slate-800 transition-colors hover:bg-brand-50 hover:text-brand-600"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {label}
+                </Link>
+              ))}
+
+              <div className="my-4 h-px bg-slate-100" />
+
+              <p className="px-3 pb-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
+                {t('nav.quickLinks')}
+              </p>
+              <Link
+                to="/search"
+                className="flex items-center gap-3 rounded-xl px-3 py-3 text-base font-medium text-slate-800 transition-colors hover:bg-brand-50 hover:text-brand-600"
+                onClick={() => setMobileOpen(false)}
+              >
+                <Search className="h-5 w-5 text-brand-600" aria-hidden />
+                {t('nav.search')}
+              </Link>
+              <Link
+                to="/wishlist"
+                className="flex items-center gap-3 rounded-xl px-3 py-3 text-base font-medium text-slate-800 transition-colors hover:bg-brand-50 hover:text-brand-600"
+                onClick={() => setMobileOpen(false)}
+              >
+                <span className="relative inline-flex">
+                  <Heart className="h-5 w-5 text-brand-600" aria-hidden />
+                  <CountBadge count={wishlistCount} />
+                </span>
+                {t('nav.wishlist')}
+                {wishlistCount > 0 ? (
+                  <span className="ml-auto text-sm text-slate-500">({wishlistCount})</span>
+                ) : null}
+              </Link>
+              <Link
+                to="/cart"
+                className="flex items-center gap-3 rounded-xl px-3 py-3 text-base font-medium text-slate-800 transition-colors hover:bg-brand-50 hover:text-brand-600"
+                onClick={() => setMobileOpen(false)}
+              >
+                <span className="relative inline-flex">
+                  <ShoppingBag className="h-5 w-5 text-brand-600" aria-hidden />
+                  <CountBadge count={itemCount} />
+                </span>
+                {t('nav.cart')}
+                {itemCount > 0 ? (
+                  <span className="ml-auto text-sm text-slate-500">({itemCount})</span>
+                ) : null}
+              </Link>
+              <Link
+                to={accountHref}
+                className="flex items-center gap-3 rounded-xl px-3 py-3 text-base font-medium text-slate-800 transition-colors hover:bg-brand-50 hover:text-brand-600"
+                onClick={() => setMobileOpen(false)}
+              >
+                <User className="h-5 w-5 text-brand-600" aria-hidden />
+                {isAuthenticated ? t('nav.account') : t('nav.login')}
+              </Link>
+            </div>
+
+            <div className="border-t border-slate-100 p-4">
+              <p className="text-center text-xs text-slate-500">{t('nav.tagline')}</p>
+            </div>
+          </aside>
+        </>,
+        document.body,
+      )}
+    </>
   )
 }
