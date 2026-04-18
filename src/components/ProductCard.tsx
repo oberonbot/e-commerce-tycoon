@@ -108,17 +108,17 @@ export function ProductCard({ product, className = '' }: ProductCardProps) {
 
       <div className="flex flex-1 flex-col gap-2 p-4">
         <span className="w-fit rounded-md bg-brand-50 px-2 py-0.5 text-xs font-medium text-brand-700">
-          {product.category}
+          {t(`categories.${product.category}`)}
         </span>
 
         <Link
           to={`/product/${product.slug}`}
           className="font-semibold leading-snug text-slate-900 transition hover:text-brand-600"
         >
-          {product.name}
+          {t(`products.${product.id}.name`)}
         </Link>
 
-        <p className="line-clamp-2 text-sm leading-relaxed text-slate-600">{product.shortDescription}</p>
+        <p className="line-clamp-2 text-sm leading-relaxed text-slate-600">{t(`products.${product.id}.short`)}</p>
 
         <StarRating rating={product.rating} reviewCount={product.reviewCount} />
 

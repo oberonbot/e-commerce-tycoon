@@ -38,25 +38,25 @@ export function About() {
       name: t('about.team.maya.name'),
       role: t('about.team.maya.role'),
       bio: t('about.team.maya.bio'),
-      avatar: 'https://ui-avatars.com/api/?name=Maya+Chen&background=6366f1&color=fff&size=256',
+      avatar: 'https://ui-avatars.com/api/?name=Maya+Chen&background=ea580c&color=fff&size=256',
     },
     {
       name: t('about.team.alex.name'),
       role: t('about.team.alex.role'),
       bio: t('about.team.alex.bio'),
-      avatar: 'https://ui-avatars.com/api/?name=Alex+Rivera&background=8b5cf6&color=fff&size=256',
+      avatar: 'https://ui-avatars.com/api/?name=Alex+Rivera&background=f97316&color=fff&size=256',
     },
     {
       name: t('about.team.jordan.name'),
       role: t('about.team.jordan.role'),
       bio: t('about.team.jordan.bio'),
-      avatar: 'https://ui-avatars.com/api/?name=Jordan+Patel&background=ec4899&color=fff&size=256',
+      avatar: 'https://ui-avatars.com/api/?name=Jordan+Patel&background=c2410c&color=fff&size=256',
     },
     {
       name: t('about.team.sam.name'),
       role: t('about.team.sam.role'),
       bio: t('about.team.sam.bio'),
-      avatar: 'https://ui-avatars.com/api/?name=Sam+Nakamura&background=14b8a6&color=fff&size=256',
+      avatar: 'https://ui-avatars.com/api/?name=Sam+Nakamura&background=9a3412&color=fff&size=256',
     },
   ];
 

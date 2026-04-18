@@ -145,9 +145,9 @@ function ProductDetailView({ product }: { product: Product }) {
 
           <div className="flex flex-col">
             <span className="w-fit rounded-md bg-brand-50 px-2.5 py-1 text-xs font-medium text-brand-700">
-              {product.category}
+              {t(`categories.${product.category}`)}
             </span>
-            <h1 className="mt-3 text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">{product.name}</h1>
+            <h1 className="mt-3 text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">{t(`products.${product.id}.name`)}</h1>
             <div className="mt-4">
               <StarRating rating={product.rating} reviewCount={product.reviewCount} />
             </div>
@@ -166,7 +166,7 @@ function ProductDetailView({ product }: { product: Product }) {
               )}
             </div>
 
-            <p className="mt-6 text-base leading-relaxed text-slate-600">{product.shortDescription}</p>
+            <p className="mt-6 text-base leading-relaxed text-slate-600">{t(`products.${product.id}.short`)}</p>
 
             {product.variants && product.variants.length > 0 && (
               <div className="mt-8 flex flex-col gap-6">
@@ -248,12 +248,12 @@ function ProductDetailView({ product }: { product: Product }) {
             {!product.inStock && <p className="mt-3 text-sm font-medium text-red-600">{t('product.outOfStock')}</p>}
 
             <ul className="mt-10 space-y-3 border-t border-slate-200 pt-8">
-              {product.features.map((f) => (
-                <li key={f} className="flex gap-3 text-sm text-slate-700">
+              {product.features.map((_, i) => (
+                <li key={i} className="flex gap-3 text-sm text-slate-700">
                   <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-600">
                     <Check className="size-3.5" strokeWidth={2.5} />
                   </span>
-                  {f}
+                  {t(`products.${product.id}.features.${i}`)}
                 </li>
               ))}
             </ul>
@@ -262,7 +262,7 @@ function ProductDetailView({ product }: { product: Product }) {
 
         <section className="mt-16 border-t border-slate-200 pt-12">
           <h2 className="text-xl font-semibold text-slate-900">{t('product.description')}</h2>
-          <p className="mt-4 max-w-3xl whitespace-pre-line text-base leading-relaxed text-slate-600">{product.description}</p>
+          <p className="mt-4 max-w-3xl whitespace-pre-line text-base leading-relaxed text-slate-600">{t(`products.${product.id}.desc`)}</p>
         </section>
 
         {related.length > 0 && (

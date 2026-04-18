@@ -2,12 +2,46 @@ import { RotateCcw, Shield, Truck } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Carousel } from '../components/Carousel';
+import type { CarouselSlide } from '../components/Carousel';
 import { ProductCard } from '../components/ProductCard';
-import { categories, heroSlides, products } from '../data/products';
+import { categories, products } from '../data/products';
 
 export function Home() {
   const { t } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState('All');
+
+  const heroSlides = useMemo<CarouselSlide[]>(
+    () => [
+      {
+        id: 1,
+        title: t('home.hero.slide1Title'),
+        subtitle: t('home.hero.slide1Subtitle'),
+        cta: t('home.hero.slide1Cta'),
+        link: '/search?category=Cases',
+        bgColor: 'from-brand-600 to-amber-700',
+        image: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=800&q=80',
+      },
+      {
+        id: 2,
+        title: t('home.hero.slide2Title'),
+        subtitle: t('home.hero.slide2Subtitle'),
+        cta: t('home.hero.slide2Cta'),
+        link: '/search?category=Chargers',
+        bgColor: 'from-slate-800 to-slate-900',
+        image: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=800&q=80',
+      },
+      {
+        id: 3,
+        title: t('home.hero.slide3Title'),
+        subtitle: t('home.hero.slide3Subtitle'),
+        cta: t('home.hero.slide3Cta'),
+        link: '/search?category=Screen Protectors',
+        bgColor: 'from-brand-700 to-orange-800',
+        image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&q=80',
+      },
+    ],
+    [t],
+  );
 
   const filteredProducts = useMemo(() => {
     if (selectedCategory === 'All') return products;
@@ -36,7 +70,7 @@ export function Home() {
                       : 'border border-slate-200 bg-white text-slate-700 hover:border-brand-300 hover:text-brand-700'
                   }`}
                 >
-                  {cat}
+                  {t(`categories.${cat}`)}
                 </button>
               );
             })}

@@ -17,45 +17,6 @@ export interface Product {
   features: string[];
 }
 
-export interface HeroSlide {
-  id: number;
-  title: string;
-  subtitle: string;
-  cta: string;
-  link: string;
-  bgColor: string;
-  image: string;
-}
-
-export const heroSlides: HeroSlide[] = [
-  {
-    id: 1,
-    title: 'Art Meets Protection',
-    subtitle: 'Discover our new collection of designer phone cases that blend stunning artwork with military-grade protection.',
-    cta: 'Shop Collection',
-    link: '/search?category=cases',
-    bgColor: 'from-brand-600 to-purple-700',
-    image: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=800&q=80',
-  },
-  {
-    id: 2,
-    title: 'Charge in Style',
-    subtitle: 'Wireless chargers and cables that look as good as they perform. Minimal design, maximum power.',
-    cta: 'Explore Chargers',
-    link: '/search?category=chargers',
-    bgColor: 'from-slate-800 to-slate-900',
-    image: 'https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=800&q=80',
-  },
-  {
-    id: 3,
-    title: 'Screen Perfection',
-    subtitle: 'Ultra-clear tempered glass screen protectors. Zero bubbles. Full coverage. Crystal clarity.',
-    cta: 'Protect Now',
-    link: '/search?category=protectors',
-    bgColor: 'from-indigo-600 to-blue-700',
-    image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800&q=80',
-  },
-];
 
 export const categories = [
   'All',

@@ -134,7 +134,7 @@ export function Search() {
             >
               {categories.map((cat) => (
                 <option key={cat} value={cat}>
-                  {cat}
+                  {t(`categories.${cat}`)}
                 </option>
               ))}
             </select>
